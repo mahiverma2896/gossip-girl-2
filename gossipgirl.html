@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gossip Girl</title>
+  <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      color: #f5f5f5;
+      font-size: 1.1rem;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: radial-gradient(#f6caca33 1px, transparent 1px), radial-gradient(#bfa04633 1px, transparent 1px);
+      background-position: 0 0, 25px 25px;
+      background-size: 50px 50px;
+      animation: sparkleMove 20s linear infinite;
+      z-index: 0;
+    }
+    @keyframes sparkleMove {
+      from { background-position: 0 0, 25px 25px; }
+      to { background-position: 50px 50px, 75px 75px; }
+    }
+    header {
+      background: #111;
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid #444;
+      position: relative;
+      z-index: 2;
+    }
+    header h1 {
+      font-family: 'Belleza', serif;
+      font-size: 3.2rem;
+      color: #f6caca;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 10px #bfa04640;
+      margin-bottom: 0.5rem;
+    }
+    header h2 {
+      font-family: 'Belleza', serif;
+      color: #bfa046;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      background: #141414;
+      padding: 1rem;
+      border-bottom: 1px solid #333;
+      position: relative;
+      z-index: 2;
+    }
+    nav a {
+      text-decoration: none;
+      color: #f6caca;
+      font-weight: 600;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 1.03rem;
+      letter-spacing: 1px;
+      border-radius: 15px;
+      padding: 0.2rem 1rem;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #fff;
+      background: #bfa04640;
+    }
+
+    .hero {
+      display: block;
+      width: fit-content;
+      font-family: 'Belleza', serif;
+      font-size: 2.4rem;
+      letter-spacing: 3px;
+      color: #f6caca;
+      text-shadow: 0 0 6px #bfa046, 0 0 12px #f6caca;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 2px solid #bfa046;
+      animation: typing 5s steps(48, end), blink-caret 0.75s step-end infinite;
+      margin: 2rem auto;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+    @keyframes blink-caret {
+      50% {
+        border-color: transparent;
+      }
+      100% {
+        border-color: #bfa046;
+      }
+    }
+    .search-bar {
+      text-align: center;
+      margin: 2rem auto;
+      position: relative;
+      z-index: 2;
+    }
+    .search-bar input {
+      padding: 0.7rem 1rem;
+      width: 60%;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      text-align: center;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: #212124;
+      color: #f6caca;
+      box-shadow: 0 0 10px #f6caca30;
+      border: 1.5px solid #f6caca60;
+      max-width: 600px;
+    }
+    .quote {
+      margin: 2rem auto;
+      max-width: 800px;
+      background: #1a1a1a;
+      border-left: 5px solid #f6caca;
+      padding: 1.5rem;
+      font-style: italic;
+      color: #f6caca;
+      font-family: 'Belleza', serif;
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 2;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .posts .post {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 1.1rem 1.3rem;
+      border-radius: 13px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: 0.3s;
+      flex-direction: column;
+    }
+    .posts .post:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 0 20px #f6caca50;
+      border-color: #f6caca60;
+    }
+    @media (min-width: 769px) {
+      .posts .post {
+        flex-direction: row;
+      }
+    }
+    .posts .post img {
+      width: 120px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 9px;
+      border: 2px solid #f6caca;
+      box-shadow: 0 2px 8px #bfa04622;
+      flex-shrink: 0;
+      margin-right: 0.8rem;
+      background: #fff;
+    }
+    .post-content h3 {
+      font-family: 'Belleza', serif;
+      color: #f6caca;
+      font-size: 1.45rem;
+      margin-bottom: 0.35rem;
+      font-weight: 400;
+    }
+    .post-content p {
+      font-family: 'Quicksand', Arial, sans-serif;
+      color: #ffd6e0;
+      font-size: 1.01rem;
+      letter-spacing: 0.2px;
+      margin-bottom: 0.8rem;
+    }
+    .views-button {
+      align-self: flex-start;
+      background: #bfa046;
+      border: none;
+      color: #111;
+      font-weight: 700;
+      padding: 0.35rem 0.8rem;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 0.9rem;
+      border-radius: 18px;
+      cursor: default;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 0 10px #bfa046aa;
+      transition: background-color 0.3s ease;
+    }
+    .views-button:hover {
+      background-color: #e6cd6a;
+    }
+    .views-button svg {
+      fill: #111;
+      width: 16px;
+      height: 16px;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #333;
+      font-size: 1rem;
+      color: #bfa046;
+      margin-top: 2rem;
+      letter-spacing: 0.5px;
+      font-family: 'Quicksand', Arial, sans-serif;
+      position: relative;
+      z-index: 2;
+    }
+    footer span {
+      color: #f6caca;
+      background: linear-gradient(45deg, #bfa046, #f6caca);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s infinite linear;
+      display: inline-block;
+    }
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+ 
+
+    @media (max-width: 768px) {
+      .search-bar input {
+        width: 90%;
+      }
+      .hero {
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+      }
+      .posts .post {
+        flex-direction: column;
+      }
+      .posts .post img {
+        width: 100%;
+        max-width: 260px;
+        height: auto;
+        margin: 0 auto 1rem auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gossip Girl</h1>
+    <h2>You know you love me. XOXO.</h2>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Secrets</a>
+    <a href="#">Events</a>
+    <a href="#">About</a>
+  </nav>
+
+  <section class="hero" aria-label="Glamorous description typing animation">
+    Spotted: Glamour, Secrets, and Drama on the West Delhi Side
+  </section>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search the latest gossip..." />
+  </div>
+
+  <div class="quote">
+    “The truth is rarer than gossip in NSUT — but only half as entertaining.”
+  </div>
+
+  <div class="container">
+    <div class="posts">
+      <div class="post">
+        <img src="images/reso.jpg" />
+        <div class="post-content">
+          <h3>Breaking: A Resonanz Mystery Unfolds</h3>
+          <p>Whispers of drama at the biggest intra-college fest of the year — someone didn’t leave alone, and the college is already talking.</p>
+          <button class="views-button" aria-label="110 views">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            110
+          </button>
+        </div>
+      </div>
+
+      <div class="post">
+        <img src="images/ddn.jpeg" />
+        <div class="post-content">
+          <h3>Exclusive: Someone's garba plans ended even before starting</h3>
+          <p>The biggest catfight of the year was witnessed in moksha ground even before the garba night started. </p>
+          <button class="views-button" aria-label="85 views">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            85
+          </button>
+        </div>
+      </div>
+
+      <div class="post">
+        <img src="images/party.jpeg"/>
+        <div class="post-content">
+          <h3>Spotted: NSUT after midnight</h3>
+          <p>From house parties to hidden speakeasies, the night is young... and so are the scandals.</p>
+          <button class="views-button" aria-label="97 views">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            97
+          </button>
+        </div>
+      </div>
+
+     
+      <div class="post">
+        <img src="images/grad.jpeg" />
+        <div class="post-content">
+          <h3>Exclusive: Nobody graduates without gossip girl's titles </h3>
+          <p>As the last post for 2024's batch, nobody graduates without gossip girl's title. Click here to know what u got!</p>
+          <button class="views-button" aria-label="120 views">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            120
+          </button>
+        </div>
+      </div>
+
+      
+      <div class="post">
+        <img src="images/rooftop.jpeg" />
+        <div class="post-content">
+          <h3>Mysterious Encounter Sparks New Rumors</h3>
+          <p>Who was seen slipping away from a rooftop party in the early hours? The college buzzes with speculation.</p>
+          <button class="views-button" aria-label="98 views">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+            </svg>
+            98
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      &copy; 2025
+      <span>Gossip Girl</span> — Keep your friends close, and your secrets closer
+    </p>
+  </footer>
+</body>
+</html>
